@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pick a Date</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #fce4ec;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Select a Date for Our Date! ❤️</h1>
+    <input type="date" id="datePicker">
+    <button onclick="confirmDate()">Confirm</button>
+
+    <script>
+        function confirmDate() {
+            const selectedDate = document.getElementById('datePicker').value;
+            if (selectedDate) {
+                alert(`Yay! Our date is set for ${selectedDate}. Can't wait! ❤️`);
+            } else {
+                alert("Please select a date first! 😊");
+            }
+        }
+    </script>
+</body>
+</html>
