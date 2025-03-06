@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose an Activity</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .activity-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .activity {
+            width: 150px;
+            height: 170px;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s;
+            text-align: center;
+            background-color: white;
+            padding: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .activity img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .activity:hover {
+            transform: scale(1.1);
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Choose an Activity ❤️</h1>
+    
+    <div class="activity-container">
+        <div class="activity" onclick="selectActivity('Stay Home')">
+            <img src="stayhome.jpg" alt="Stay Home">
+            <p>🏡 Stay Home</p>
+        </div>
+
+        <div class="activity" onclick="selectActivity('Watch a Movie')">
+            <img src="movie.jpg" alt="Watch a Movie">
+            <p>🎬 Watch a Movie</p>
+        </div>
+
+        <div class="activity" onclick="selectActivity('Cafe Hopping')">
+            <img src="cafe.jpg" alt="Cafe Hopping">
+            <p>☕ Cafe Hopping</p>
+        </div>
+
+        <div class="activity" onclick="selectActivity('Meal Date')">
+            <img src="mealdate.jpg" alt="Meal Date">
+            <p>🍽️ Meal Date</p>
+        </div>
+    </div>
+
+    <form id="activityForm" action="date.html">
+        <input type="hidden" name="activity" id="selectedActivity">
+        <button type="submit">Next</button>
+    </form>
+
+    <script>
+        function selectActivity(activity) {
+            document.getElementById('selectedActivity').value = activity;
+            document.getElementById('activityForm').submit();
+        }
+    </script>
+</body>
+</html>
