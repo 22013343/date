@@ -8,7 +8,7 @@
         body {
             text-align: center;
             font-family: Arial, sans-serif;
-            background-color:#f0e6f6;
+            background-color: #f8f9fa;
             padding: 20px;
         }
         input {
@@ -24,20 +24,38 @@
     </style>
 </head>
 <body>
-    <h1>Pick a Date for Our Date! ❤️</h1>
-    <label for="date">Select Date:</label>
-    <input type="date" id="date" required>
-    <br>
-    <button onclick="goToChoice()">Next</button>
+    <h1>Pick a Date for Our Date ❤️</h1>
+    <input type="date" id="dateInput">
+    <button onclick="nextStep()">Next</button>
 
     <script>
-        function goToChoice() {
-            const selectedDate = document.getElementById("date").value;
-            if (!selectedDate) {
-                alert("Please select a date 📅");
+        function nextStep() {
+            const date = document.getElementById("dateInput").value;
+            if (!date) {
+                alert("Please select a date first! 😊");
                 return;
             }
-            window.location.href = `choice.html?date=${selectedDate}`;
+
+            // Get the selected activity from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const activity = urlParams.get("activity");
+
+            // Store the date and activity in localStorage to pass to the next page
+            localStorage.setItem("selectedDate", date);
+            localStorage.setItem("selectedActivity", activity);
+
+            // Redirect based on activity choice
+            if (activity === "Stay Home") {
+                window.location.href = "home.html";
+            } else if (activity === "Watch a Movie") {
+                window.location.href = "movie.html";
+            } else if (activity === "Cafe Hopping") {
+                window.location.href = "cafe.html";
+            } else if (activity === "Meal Date") {
+                window.location.href = "choice.html";
+            } else {
+                alert("Oops! Something went wrong. Try again!");
+            }
         }
     </script>
 </body>
