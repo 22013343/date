@@ -101,11 +101,13 @@
     </div>
 
     <script>
+        // Get query parameter from URL
         function getQueryParam(param) {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(param);
         }
 
+        // Open modal with restaurant options based on cuisine
         function openModal(cuisine, options) {
             document.getElementById('modalTitle').textContent = `Choose a ${cuisine} Restaurant`;
             let optionsHTML = '';
@@ -117,11 +119,13 @@
             document.getElementById('overlay').style.display = 'block';
         }
 
+        // Close the modal
         function closeModal() {
             document.getElementById('modal').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
         }
 
+        // Populate selected date when page loads
         document.addEventListener("DOMContentLoaded", function () {
             const selectedDate = getQueryParam("date");
             if (selectedDate) {
@@ -132,6 +136,7 @@
             }
         });
 
+        // Form validation for restaurant selection
         document.getElementById("restaurantForm").addEventListener("submit", function(event) {
             const selectedRestaurant = document.querySelector('input[name="restaurant"]:checked');
             if (!selectedRestaurant) {
