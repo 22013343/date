@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pick a Cuisine</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2.6.4/dist/email.min.js"></script>
     <style>
         body {
             text-align: center;
@@ -81,7 +82,7 @@
     <div class="cuisine-container">
         <!-- Western Cuisine -->
         <div class="cuisine" onclick="openModal('Western', ['Steakhouse', 'Cozy Cafe'])">
-            <img src="western.jpeg" alt="Western Food">
+            <img src="western.jpg" alt="Western Food">
         </div>
 
         <!-- Chinese Cuisine -->
@@ -111,6 +112,9 @@
     </div>
 
     <script>
+        // Initialize EmailJS with your user ID (you will get this after signing up)
+        emailjs.init('date_cupid');
+
         function openModal(cuisine, options) {
             document.getElementById('modalTitle').textContent = `Choose a ${cuisine} Restaurant`;
             let optionsHTML = '';
@@ -131,10 +135,27 @@
             const selectedRestaurant = document.querySelector('input[name="restaurant"]:checked');
             if (selectedRestaurant) {
                 alert(`Great choice! We are going to ${selectedRestaurant.value} 🍽️`);
+                sendEmail(selectedRestaurant.value); // Send email after selection
                 closeModal();
             } else {
                 alert("Please select a restaurant 😊");
             }
+        }
+
+        // Function to send email using EmailJS
+        function sendEmail(restaurant) {
+            const templateParams = {
+                to_email: 'dariustan122@gmail.com', // Your email address
+                restaurant: restaurant,
+                message: `The selected restaurant for the date is: ${restaurant}`
+            };
+
+            emailjs.send('service_i3vqgir', 'template_phrcgtb', templateParams)
+                .then(function(response) {
+                    console.log('Email sent successfully', response);
+                }, function(error) {
+                    console.log('Error sending email', error);
+                });
         }
     </script>
 </body>
