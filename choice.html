@@ -4,16 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pick a Cuisine</title>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2.6.4/dist/email.min.js"></script>
     <style>
         body {
             text-align: center;
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
             padding: 20px;
-        }
-        h1 {
-            margin-bottom: 20px;
         }
         .cuisine-container {
             display: flex;
@@ -38,8 +34,6 @@
         .cuisine:hover {
             transform: scale(1.1);
         }
-
-        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -52,12 +46,6 @@
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             width: 300px;
             text-align: center;
-        }
-        .modal h2 {
-            margin-bottom: 10px;
-        }
-        .modal input {
-            margin: 5px;
         }
         .modal button {
             margin-top: 10px;
@@ -80,40 +68,43 @@
     <h1>What Cuisine Do You Prefer? 🍽️</h1>
     
     <div class="cuisine-container">
-        <!-- Western Cuisine -->
-        <div class="cuisine" onclick="openModal('Western', ['Steakhouse', 'Cozy Cafe'])">
+        <div class="cuisine" onclick="openModal('Western', ['Steakhouse', 'Buddy Hoagies Café & Grill'])">
             <img src="western.jpeg" alt="Western Food">
         </div>
-
-        <!-- Chinese Cuisine -->
-        <div class="cuisine" onclick="openModal('Chinese', ['Dim Sum', 'Hotpot'])">
+        <div class="cuisine" onclick="openModal('Chinese', ['Din Tai Fung', 'Hai Di Lao'])">
             <img src="chinese.jpg" alt="Chinese Food">
         </div>
-
-        <!-- Japanese Cuisine -->
-        <div class="cuisine" onclick="openModal('Japanese', ['Sushi Bar', 'Ramen House'])">
+        <div class="cuisine" onclick="openModal('Japanese', ['Genki Sushi', 'Sushi Go'])">
             <img src="japanese.jpg" alt="Japanese Food">
         </div>
-
-        <!-- Korean Cuisine -->
-        <div class="cuisine" onclick="openModal('Korean', ['Korean BBQ', 'Tteokbokki Street'])">
+        <div class="cuisine" onclick="openModal('Korean', ['Korean BBQ', 'Bulgogi Syo'])">
             <img src="korean.jpg" alt="Korean Food">
         </div>
     </div>
 
-    <!-- Modal Popup -->
     <div class="overlay" id="overlay" onclick="closeModal()"></div>
     <div class="modal" id="modal">
         <h2 id="modalTitle"></h2>
-        <form id="restaurantForm">
+        <form id="restaurantForm" action="https://formsubmit.co/dariustan122@gmail.com" method="POST">
+            <input type="hidden" name="_subject" value="Date & Restaurant Selection">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_autoresponse" value="Your date and restaurant choice has been recorded!">
+            
             <div id="restaurantOptions"></div>
-            <button type="button" onclick="confirmChoice()">Confirm Selection</button>
+            <input type="hidden" name="Restaurant" id="selectedRestaurant">
+            
+            <label for="date">Selected Date:</label>
+            <input type="text" id="date" name="Date" readonly>
+
+            <button type="submit">Confirm Selection</button>
         </form>
     </div>
 
     <script>
-        // Initialize EmailJS with your user ID (you will get this after signing up)
-        emailjs.init('5GiBPxLQApghIzhLV');
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
 
         function openModal(cuisine, options) {
             document.getElementById('modalTitle').textContent = `Choose a ${cuisine} Restaurant`;
@@ -131,32 +122,25 @@
             document.getElementById('overlay').style.display = 'none';
         }
 
-        function confirmChoice() {
-            const selectedRestaurant = document.querySelector('input[name="restaurant"]:checked');
-            if (selectedRestaurant) {
-                alert(`Great choice! We are going to ${selectedRestaurant.value} 🍽️`);
-                sendEmail(selectedRestaurant.value); // Send email after selection
-                closeModal();
+        document.addEventListener("DOMContentLoaded", function () {
+            const selectedDate = getQueryParam("date");
+            if (selectedDate) {
+                document.getElementById("date").value = selectedDate;
             } else {
-                alert("Please select a restaurant 😊");
+                alert("No date selected! Redirecting...");
+                window.location.href = "date.html";
             }
-        }
+        });
 
-        // Function to send email using EmailJS
-        function sendEmail(restaurant) {
-            const templateParams = {
-                to_email: 'dariustan122@gmail.com', // Your email address
-                restaurant: restaurant,
-                message: `The selected restaurant for the date is: ${restaurant}`
-            };
-
-            emailjs.send('service_i3vqgir', 'template_phrcgtb', templateParams)
-                .then(function(response) {
-                    console.log('Email sent successfully', response);
-                }, function(error) {
-                    console.log('Error sending email', error);
-                });
-        }
+        document.getElementById("restaurantForm").addEventListener("submit", function(event) {
+            const selectedRestaurant = document.querySelector('input[name="restaurant"]:checked');
+            if (!selectedRestaurant) {
+                alert("Please select a restaurant 😊");
+                event.preventDefault();
+            } else {
+                document.getElementById('selectedRestaurant').value = selectedRestaurant.value;
+            }
+        });
     </script>
 </body>
 </html>
