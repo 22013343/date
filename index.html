@@ -33,22 +33,27 @@
     </style>
 </head>
 <body>
-    <h1>Would you like to go on a date with me this weekend?</h1>
+    <h1>Would you like to go on a date with me this weekend? ❤️</h1>
     <div class="buttons">
-        <button id="yesBtn">Yes</button>
-        <button id="noBtn">No</button>
+        <button id="yesBtn">Yes 🥰</button>
+        <button id="noBtn">No 😜</button>
     </div>
 
     <script>
         const noBtn = document.getElementById('noBtn');
+
         noBtn.addEventListener('mouseover', () => {
             const offsetX = (Math.random() - 0.5) * 200;
             const offsetY = (Math.random() - 0.5) * 100;
             noBtn.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
         });
 
+        noBtn.addEventListener('click', () => {
+            alert("No is not an answer! Try again! 😜");
+        });
+
         document.getElementById('yesBtn').addEventListener('click', () => {
-            window.location.href = 'date.html';
+            window.location.href = 'activity.html'; // Redirects to activity selection
         });
     </script>
 </body>
