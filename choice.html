@@ -18,9 +18,9 @@
             display: flex;
             justify-content: center;
             gap: 30px;
+            flex-wrap: wrap;
         }
         .cuisine {
-            position: relative;
             width: 150px;
             height: 150px;
             border-radius: 50%;
@@ -37,25 +37,41 @@
         .cuisine:hover {
             transform: scale(1.1);
         }
-        .options {
+
+        /* Modal Styles */
+        .modal {
             display: none;
-            position: absolute;
-            top: 100%;
+            position: fixed;
+            top: 50%;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translate(-50%, -50%);
             background: white;
-            padding: 10px;
+            padding: 20px;
             border-radius: 10px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
         }
-        .cuisine:hover .options {
-            display: block;
+        .modal h2 {
+            margin-bottom: 10px;
         }
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
+        .modal input {
+            margin: 5px;
+        }
+        .modal button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            font-size: 14px;
             cursor: pointer;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
         }
     </style>
 </head>
@@ -64,49 +80,58 @@
     
     <div class="cuisine-container">
         <!-- Western Cuisine -->
-        <div class="cuisine">
+        <div class="cuisine" onclick="openModal('Western', ['Steakhouse', 'Cozy Cafe'])">
             <img src="western.jpeg" alt="Western Food">
-            <div class="options">
-                <label><input type="radio" name="restaurant" value="Steakhouse"> Steakhouse</label><br>
-                <label><input type="radio" name="restaurant" value="Cafe"> Cozy Cafe</label>
-            </div>
         </div>
 
         <!-- Chinese Cuisine -->
-        <div class="cuisine">
+        <div class="cuisine" onclick="openModal('Chinese', ['Dim Sum', 'Hotpot'])">
             <img src="chinese.jpg" alt="Chinese Food">
-            <div class="options">
-                <label><input type="radio" name="restaurant" value="Dim Sum"> Dim Sum</label><br>
-                <label><input type="radio" name="restaurant" value="Hotpot"> Hotpot</label>
-            </div>
         </div>
 
         <!-- Japanese Cuisine -->
-        <div class="cuisine">
+        <div class="cuisine" onclick="openModal('Japanese', ['Sushi Bar', 'Ramen House'])">
             <img src="japanese.jpg" alt="Japanese Food">
-            <div class="options">
-                <label><input type="radio" name="restaurant" value="Sushi"> Sushi Bar</label><br>
-                <label><input type="radio" name="restaurant" value="Ramen"> Ramen House</label>
-            </div>
         </div>
 
         <!-- Korean Cuisine -->
-        <div class="cuisine">
+        <div class="cuisine" onclick="openModal('Korean', ['Korean BBQ', 'Tteokbokki Street'])">
             <img src="korean.jpg" alt="Korean Food">
-            <div class="options">
-                <label><input type="radio" name="restaurant" value="BBQ"> Korean BBQ</label><br>
-                <label><input type="radio" name="restaurant" value="Tteokbokki"> Tteokbokki Street</label>
-            </div>
         </div>
     </div>
 
-    <button onclick="confirmChoice()">Confirm Selection</button>
+    <!-- Modal Popup -->
+    <div class="overlay" id="overlay" onclick="closeModal()"></div>
+    <div class="modal" id="modal">
+        <h2 id="modalTitle"></h2>
+        <form id="restaurantForm">
+            <div id="restaurantOptions"></div>
+            <button type="button" onclick="confirmChoice()">Confirm Selection</button>
+        </form>
+    </div>
 
     <script>
+        function openModal(cuisine, options) {
+            document.getElementById('modalTitle').textContent = `Choose a ${cuisine} Restaurant`;
+            let optionsHTML = '';
+            options.forEach(option => {
+                optionsHTML += `<label><input type="radio" name="restaurant" value="${option}"> ${option}</label><br>`;
+            });
+            document.getElementById('restaurantOptions').innerHTML = optionsHTML;
+            document.getElementById('modal').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
         function confirmChoice() {
             const selectedRestaurant = document.querySelector('input[name="restaurant"]:checked');
             if (selectedRestaurant) {
                 alert(`Great choice! We are going to ${selectedRestaurant.value} 🍽️`);
+                closeModal();
             } else {
                 alert("Please select a restaurant 😊");
             }
