@@ -101,12 +101,6 @@
     </div>
 
     <script>
-        // Get query parameter from URL
-        function getQueryParam(param) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param);
-        }
-
         // Open modal with restaurant options based on cuisine
         function openModal(cuisine, options) {
             document.getElementById('modalTitle').textContent = `Choose a ${cuisine} Restaurant`;
@@ -127,7 +121,9 @@
 
         // Populate selected date when page loads
         document.addEventListener("DOMContentLoaded", function () {
-            const selectedDate = getQueryParam("date");
+            // Retrieve selected date from localStorage instead of URL params
+            const selectedDate = localStorage.getItem("selectedDate");
+
             if (selectedDate) {
                 document.getElementById("date").value = selectedDate;
             } else {
