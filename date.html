@@ -20,6 +20,14 @@
             padding: 10px 15px;
             font-size: 16px;
             cursor: pointer;
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: transform 0.3s;
+        }
+        button:hover {
+            transform: scale(1.1);
         }
     </style>
 </head>
@@ -36,13 +44,16 @@
                 return;
             }
 
-            // Get the selected activity from the URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const activity = urlParams.get("activity");
+            // Retrieve the selected activity from localStorage
+            let activity = localStorage.getItem("selectedActivity");
+            if (!activity) {
+                alert("No activity selected. Redirecting back...");
+                window.location.href = "activity.html";
+                return;
+            }
 
-            // Store the date and activity in localStorage to pass to the next page
+            // Store date in localStorage
             localStorage.setItem("selectedDate", date);
-            localStorage.setItem("selectedActivity", activity);
 
             // Redirect based on activity choice
             if (activity === "Stay Home") {
