@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cozy Stay-at-Home Date</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        h1 {
+            color: #ff6f61;
+        }
+        .content {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .date-info {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .ideas {
+            margin-top: 20px;
+        }
+        .ideas ul {
+            list-style: none;
+            padding: 0;
+        }
+        .ideas li {
+            background: #ffe0e6;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cozy Stay-at-Home Date 🏡❤️</h1>
+    
+    <div class="content">
+        <p class="date-info">Your selected date: <span id="selectedDate"></span></p>
+        <p>Here are some fun ideas for your stay-at-home date!</p>
+        
+        <div class="ideas">
+            <ul>
+                <li>📺 Watch Netflix together</li>
+                <li>🎮 Play on mobile or Nintendo Switch</li>
+                <li>🎤 Have a Spotify karaoke session</li>
+                <li>🔍 Search</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Retrieve selected date from localStorage
+        document.addEventListener("DOMContentLoaded", function () {
+            const selectedDate = localStorage.getItem("selectedDate");
+
+            if (selectedDate) {
+                document.getElementById("selectedDate").textContent = selectedDate;
+            } else {
+                alert("No date selected! Redirecting...");
+                window.location.href = "date.html";
+            }
+        });
+    </script>
+</body>
+</html>
