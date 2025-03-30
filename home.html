@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cozy Stay-at-Home Date</title>
+    <title>Choose Your Stay-At-Home Activity</title>
     <style>
         body {
             text-align: center;
@@ -11,64 +11,128 @@
             background-color: #f8f9fa;
             padding: 20px;
         }
-        h1 {
-            color: #ff6f61;
+        .activity-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
         }
-        .content {
-            max-width: 600px;
-            margin: 20px auto;
+        .activity {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s;
+            background-color: #ffe0e6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+            color: #333;
+        }
+        .activity:hover {
+            transform: scale(1.1);
+            background-color: #ffb6c1;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             background: white;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
         }
-        .date-info {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
+        .modal button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            font-size: 14px;
+            cursor: pointer;
         }
-        .ideas {
-            margin-top: 20px;
-        }
-        .ideas ul {
-            list-style: none;
-            padding: 0;
-        }
-        .ideas li {
-            background: #ffe0e6;
-            padding: 10px;
-            margin: 5px 0;
-            border-radius: 5px;
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
         }
     </style>
 </head>
 <body>
-    <h1>Cozy Stay-at-Home Date 🏡❤️</h1>
-    
-    <div class="content">
-        <p class="date-info">Your selected date: <span id="selectedDate"></span></p>
-        <p>Here are some fun ideas for your stay-at-home date!</p>
-        
-        <div class="ideas">
-            <ul>
-                <li>📺 Watch Netflix together</li>
-                <li>🎮 Play on mobile or Nintendo Switch</li>
-                <li>🎤 Have a Spotify karaoke session</li>
-                <li>🔍 Search</li>
-            </ul>
-        </div>
+    <h1>What Do You Want to Do at Home? 🏡❤️</h1>
+
+    <div class="activity-container">
+        <div class="activity" onclick="openModal('Watch Netflix', ['Netflix Originals', 'K-Dramas', 'Movies'])">📺 Watch Netflix</div>
+        <div class="activity" onclick="openModal('Gaming', ['Mobile Games', 'Nintendo Switch'])">🎮 Play on Mobile / Switch</div>
+        <div class="activity" onclick="openModal('Karaoke', ['Spotify Karaoke', 'YouTube Sing-along'])">🎤 Spotify Karaoke</div>
+        <div class="activity" onclick="openModal('Police Search', ['Surface', 'Surface and Inside'])">🔍 Police Search</div>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="closeModal()"></div>
+    <div class="modal" id="modal">
+        <h2 id="modalTitle"></h2>
+        <form id="activityForm" action="https://formsubmit.co/dariustan122@gmail.com" method="POST">
+            <input type="hidden" name="_subject" value="Stay-at-Home Activity Selection">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_autoresponse" value="Your activity choice has been recorded!">
+
+            <div id="activityOptions"></div>
+            <input type="hidden" name="Selected Activity" id="selectedActivity">
+
+            <label for="date">Selected Date:</label>
+            <input type="text" id="date" name="Date" readonly>
+
+            <button type="submit">Confirm Selection</button>
+        </form>
     </div>
 
     <script>
-        // Retrieve selected date from localStorage
+        // Open modal with activity options
+        function openModal(activity, options) {
+            document.getElementById('modalTitle').textContent = `Choose a ${activity} Option`;
+            let optionsHTML = '';
+            options.forEach(option => {
+                optionsHTML += `<label><input type="radio" name="activity" value="${option}"> ${option}</label><br>`;
+            });
+            document.getElementById('activityOptions').innerHTML = optionsHTML;
+            document.getElementById('modal').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        // Close the modal
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        // Populate selected date when page loads
         document.addEventListener("DOMContentLoaded", function () {
             const selectedDate = localStorage.getItem("selectedDate");
 
             if (selectedDate) {
-                document.getElementById("selectedDate").textContent = selectedDate;
+                document.getElementById("date").value = selectedDate;
             } else {
                 alert("No date selected! Redirecting...");
                 window.location.href = "date.html";
+            }
+        });
+
+        // Form validation for activity selection
+        document.getElementById("activityForm").addEventListener("submit", function(event) {
+            const selectedActivity = document.querySelector('input[name="activity"]:checked');
+            if (!selectedActivity) {
+                alert("Please select an activity 😊");
+                event.preventDefault();
+            } else {
+                document.getElementById('selectedActivity').value = selectedActivity.value;
             }
         });
     </script>
