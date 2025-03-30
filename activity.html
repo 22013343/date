@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose an Activity</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #f0e6f6;
+            padding: 20px;
+        }
+        .activity-btn {
+            display: block;
+            width: 200px;
+            padding: 10px;
+            margin: 10px auto;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 10px;
+            border: none;
+            background: #ff4081;
+            color: white;
+            transition: transform 0.3s ease-in-out;
+        }
+        .activity-btn:hover {
+            transform: scale(1.1);
+            background: #d81b60;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pick an Activity for Our Date! ❤️</h1>
+    
+    <button class="activity-btn" onclick="selectActivity('Stay Home')">Stay Home</button>
+    <button class="activity-btn" onclick="selectActivity('Watch a Movie')">Watch a Movie</button>
+    <button class="activity-btn" onclick="selectActivity('Cafe Hopping')">Cafe Hopping</button>
+    <button class="activity-btn" onclick="selectActivity('Meal Date')">Meal Date</button>
+
+    <script>
+        function selectActivity(activity) {
+            // Store the selected activity in localStorage
+            localStorage.setItem("selectedActivity", activity);
+
+            // Redirect to date selection with the activity as a URL parameter
+            window.location.href = `date.html?activity=${encodeURIComponent(activity)}`;
+        }
+    </script>
+</body>
+</html>
