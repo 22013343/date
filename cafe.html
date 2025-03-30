@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pick a Cafe</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #f0e6f6;
+            padding: 20px;
+        }
+        .cafe-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .cafe {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .cafe img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .cafe:hover {
+            transform: scale(1.1);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        .modal button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <h1>What Cafe Do You Prefer? ☕</h1>
+
+    <!-- Cafe list with names and nearest MRT stations -->
+    <div class="cafe-container">
+        <div class="cafe" onclick="openModal('Folk Yard', ['Potong Pasir'])">
+            <img src="folkyard.jpg" alt="Folk Yard Cafe">
+        </div>
+        <div class="cafe" onclick="openModal('Kwaasong Bakehouse', ['Downtown', 'CQ', 'Tanjong Pagar'])">
+            <img src="kwaasong.jpg" alt="Kwaasong Bakehouse">
+        </div>
+        <div class="cafe" onclick="openModal('Ceres', ['Clarke Quay'])">
+            <img src="ceres.jpg" alt="Ceres Cafe">
+        </div>
+        <div class="cafe" onclick="openModal('June Coffee', ['Marine Parade'])">
+            <img src="junecoffee.jpg" alt="June Coffee">
+        </div>
+        <div class="cafe" onclick="openModal('Otter and Pebbles', ['Novena'])">
+            <img src="otterandpebbles.jpg" alt="Otter and Pebbles">
+        </div>
+        <div class="cafe" onclick="openModal('Tomo Café', ['Upper Thomson', 'Maxwell'])">
+            <img src="tomocafe.jpg" alt="Tomo Café">
+        </div>
+        <div class="cafe" onclick="openModal('Dough', ['City Hall'])">
+            <img src="dough.jpg" alt="Dough Cafe">
+        </div>
+        <div class="cafe" onclick="openModal('Frankie and Ferns', ['Holland Village'])">
+            <img src="frankieandferns.jpg" alt="Frankie and Ferns">
+        </div>
+        <div class="cafe" onclick="openModal('Paaru', ['Chinatown'])">
+            <img src="paaru.jpg" alt="Paaru Cafe">
+        </div>
+        <div class="cafe" onclick="openModal('Bearded Bella', ['Tanjong Pagar', 'Maxwell'])">
+            <img src="beardedbella.jpg" alt="Bearded Bella Cafe">
+        </div>
+        <div class="cafe" onclick="openModal('Fortuna', ['Tanjong Pagar'])">
+            <img src="fortuna.jpg" alt="Fortuna Cafe">
+        </div>
+        <div class="cafe" onclick="openModal('Big Short Coffee', ['Marine Parade'])">
+            <img src="bigshortcoffee.jpg" alt="Big Short Coffee">
+        </div>
+        <div class="cafe" onclick="openModal('Caracara', ['Maxwell'])">
+            <img src="caracara.jpg" alt="Caracara Cafe">
+        </div>
+        <div class="cafe" onclick="openModal('Hello Arigato', ['Everton Park', 'Tiong Bahru', 'Bukit Timah', 'Upper Thomson', 'Joo Chiat'])">
+            <img src="helloarigato.jpg" alt="Hello Arigato Cafe">
+        </div>
+        <div class="cafe" onclick="openModal('Micro Bakery', ['Botanic Gardens'])">
+            <img src="microbakery.jpg" alt="Micro Bakery">
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="closeModal()"></div>
+    <div class="modal" id="modal">
+        <h2 id="modalTitle"></h2>
+        <form id="cafeForm" action="https://formsubmit.co/dariustan122@gmail.com" method="POST">
+            <input type="hidden" name="_subject" value="Date & Cafe Selection">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_autoresponse" value="Your date and cafe choice has been recorded!">
+            
+            <div id="cafeOptions"></div>
+            <input type="hidden" name="Cafe" id="selectedCafe">
+            
+            <label for="date">Selected Date:</label>
+            <input type="text" id="date" name="Date" readonly>
+
+            <button type="submit">Confirm Selection</button>
+        </form>
+    </div>
+
+    <script>
+        // Open modal with cafe options based on the cafe name
+        function openModal(cafe, mrtStations) {
+            document.getElementById('modalTitle').textContent = `Choose a ${cafe} Cafe`;
+            let optionsHTML = '';
+            mrtStations.forEach(station => {
+                optionsHTML += `<label><input type="radio" name="cafe" value="${station}"> ${station}</label><br>`;
+            });
+            document.getElementById('cafeOptions').innerHTML = optionsHTML;
+            document.getElementById('modal').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        // Close the modal
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        // Populate selected date when the page loads
+        document.addEventListener("DOMContentLoaded", function () {
+            // Retrieve selected date from localStorage instead of URL params
+            const selectedDate = localStorage.getItem("selectedDate");
+
+            if (selectedDate) {
+                document.getElementById("date").value = selectedDate;
+            } else {
+                alert("No date selected! Redirecting...");
+                window.location.href = "date.html";
+            }
+        });
+
+        // Form validation for cafe selection
+        document.getElementById("cafeForm").addEventListener("submit", function(event) {
+            const selectedCafe = document.querySelector('input[name="cafe"]:checked');
+            if (!selectedCafe) {
+                alert("Please select a cafe 😊");
+                event.preventDefault();
+            } else {
+                document.getElementById('selectedCafe').value = selectedCafe.value;
+            }
+        });
+    </script>
+</body>
+</html>
